@@ -9,7 +9,10 @@
 *.lo
 *.o
 *.obj
-
+*.bin
+*.log
+*.ini
+*.uasset
 # Precompiled Headers
 *.gch
 *.pch
@@ -75,3 +78,6 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+BattleTank/Saved/Crashes/
+BattleTank/Saved/Backup/BattleGround_2018-10-07-18-42-25.umap
+BattleTank/Saved/Autosaves/Game/BattleGround_Auto2.umap
