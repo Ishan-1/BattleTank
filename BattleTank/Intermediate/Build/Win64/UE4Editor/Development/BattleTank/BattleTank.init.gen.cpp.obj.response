@@ -24,6 +24,7 @@
 /w44668
 /I "C:\Program Files\Epic Games\UE_4.19\Engine\Source"
 /I "C:\Users\Ishan Gupta\Documents\repos\04_BattleTank\BattleTank\Source"
+/I "C:\Users\Ishan Gupta\Documents\repos\04_BattleTank\BattleTank\Source\BattleTank\Public"
 /I "C:\Users\Ishan Gupta\Documents\repos\04_BattleTank\BattleTank\Intermediate\Build\Win64\UE4Editor\Inc\BattleTank"
 /I "C:\Users\Ishan Gupta\Documents\repos\04_BattleTank\BattleTank\Source\BattleTank"
 /I "C:\Program Files\Epic Games\UE_4.19\Engine\Source\Runtime\Core\Public"
