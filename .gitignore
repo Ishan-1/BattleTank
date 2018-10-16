@@ -13,6 +13,7 @@
 *.log
 *.ini
 *.uasset
+*.pdb
 # Precompiled Headers
 *.gch
 *.pch
@@ -57,7 +58,9 @@ Plugins/*/Binaries/*
 
 # Builds
 Build/*
-
+Intermediate/*
+Saved/*
+Binaries/*
 # Whitelist PakBlacklist-<BuildConfiguration>.txt files
 !Build/*/
 Build/*/**
@@ -81,3 +84,8 @@ DerivedDataCache/*
 BattleTank/Saved/Crashes/
 BattleTank/Saved/Backup/BattleGround_2018-10-07-18-42-25.umap
 BattleTank/Saved/Autosaves/Game/BattleGround_Auto2.umap
+BattleTank/Content/StarterContent/Maps/StarterMap.umap
+BattleTank/Content/StarterContent/Maps/Advanced_Lighting.umap
+BattleTank/Content/StarterContent/Maps/Minimal_Default.umap
+BattleTank/Saved/Backup/
+BattleTank/Saved/Autosaves/
