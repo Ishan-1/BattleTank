@@ -8,6 +8,7 @@
 #include "Public/UObject/Class.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/Actor.h"
+#include "Engine/World.h"
 #include "MyTankPlayerController.generated.h"
 
 /**
@@ -24,9 +25,13 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	void AimTowardsCrosshair();
 	bool GetHitSightRayLocation(FVector& OutHitlocation) const;
+	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
+	bool GetLookVectorHitLocation(FVector LookDirection, FVector &HitLocation) const;
 private:
 	UPROPERTY(EditAnywhere)
 	float CrossHairXLocation = 0.5f;
 	UPROPERTY(EditAnywhere)
 	float CrossHairYLocation = 0.33333f;
+	UPROPERTY(EditAnywhere)
+	float LineTraceRange = 1000000.f;
 };

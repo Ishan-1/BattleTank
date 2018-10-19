@@ -25,8 +25,8 @@ void AMyTankPlayerController::AimTowardsCrosshair()
 {
 	if (!GetControlledTank()) { return; }
 	FVector HitLocation;///OUT parameter
-	if(GetHitSightRayLocation(HitLocation))
-	UE_LOG(LogTemp,Warning,TEXT("%s"),*(HitLocation.ToString()))
+	if (GetHitSightRayLocation(HitLocation))
+		GetControlledTank()->AimAt(HitLocation);
 }
 bool AMyTankPlayerController::GetHitSightRayLocation(FVector& OutHitLocation) const
 {
@@ -34,10 +34,38 @@ bool AMyTankPlayerController::GetHitSightRayLocation(FVector& OutHitLocation) co
 	int32 ViewPortSizeX, ViewPortSizeY;
 	GetViewportSize(ViewPortSizeX, ViewPortSizeY);
 	auto ScreenLocation = FVector2D(ViewPortSizeX*CrossHairXLocation, ViewPortSizeY*CrossHairYLocation);
-	FVector CameraWorldPosition,WorldPosition;
-	if (DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, CameraWorldPosition, WorldPosition))
+	FVector LookDirection;
+	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
-		UE_LOG(LogTemp,Warning,TEXT("Look direction: %s"),*(WorldPosition.ToString()))
+		GetLookVectorHitLocation(LookDirection, OutHitLocation);
 	}
 	return true;
+}
+bool AMyTankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const
+{
+	FVector CameraWorldLocation;
+	return DeprojectScreenPositionToWorld(
+		ScreenLocation.X,
+		ScreenLocation.Y,
+		CameraWorldLocation,
+		LookDirection
+	);
+}
+bool AMyTankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector &HitLocation) const
+{
+	FHitResult HitResult;
+	auto StartLocation = PlayerCameraManager->GetCameraLocation();
+	auto EndLocation = StartLocation + (LookDirection*LineTraceRange);
+	if (GetWorld()->LineTraceSingleByChannel(
+		HitResult,
+		StartLocation,
+		EndLocation,
+		ECC_Visibility)
+		)
+	{
+		HitLocation=HitResult.Location;
+		return true;
+	}
+	HitLocation = FVector(0.f);
+	return false;
 }
