@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "TankAimingComponent.generated.h"
 
 
@@ -30,4 +31,5 @@ public:
 	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
 private:
 	UStaticMeshComponent* Barrel = nullptr;
+	void MoveBarrelTowards(FVector AimDirection);
 };
