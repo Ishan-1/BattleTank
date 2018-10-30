@@ -23,28 +23,32 @@ void AMyTankPlayerController::Tick(float DeltaTime)
 }
 void AMyTankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank()) { return; }
-	FVector HitLocation;///OUT parameter
-	if (GetHitSightRayLocation(HitLocation))
+	FVector HitLocation; // Out parameter
+	bool bGotHitLocation = GetHitSightRayLocation(HitLocation);
+	if (bGotHitLocation) // Has "side-effect", is going to line trace
+	{
 		GetControlledTank()->AimAt(HitLocation);
+	}
 }
 bool AMyTankPlayerController::GetHitSightRayLocation(FVector& OutHitLocation) const
 {
-	OutHitLocation = FVector(1.0);
-	int32 ViewPortSizeX, ViewPortSizeY;
-	GetViewportSize(ViewPortSizeX, ViewPortSizeY);
-	auto ScreenLocation = FVector2D(ViewPortSizeX*CrossHairXLocation, ViewPortSizeY*CrossHairYLocation);
+	int32 ViewportSizeX, ViewportSizeY;
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+	auto ScreenLocation = FVector2D(ViewportSizeX * CrosshairXLocation, ViewportSizeY * CrosshairYLocation);
+
+	// "De-project" the screen position of the crosshair to a world direction
 	FVector LookDirection;
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
-		GetLookVectorHitLocation(LookDirection, OutHitLocation);
+		// Line-trace along that LookDirection, and see what we hit (up to max range)
+		return GetLookVectorHitLocation(LookDirection, OutHitLocation);
 	}
-	return true;
+	return false;
 }
 bool AMyTankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const
 {
-	FVector CameraWorldLocation;
-	return DeprojectScreenPositionToWorld(
+	FVector CameraWorldLocation; // To be discarded
+	return  DeprojectScreenPositionToWorld(
 		ScreenLocation.X,
 		ScreenLocation.Y,
 		CameraWorldLocation,
@@ -60,7 +64,7 @@ bool AMyTankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FV
 		HitResult,
 		StartLocation,
 		EndLocation,
-		ECC_Visibility)
+		ECollisionChannel::ECC_Camera)
 		)
 	{
 		HitLocation=HitResult.Location;
