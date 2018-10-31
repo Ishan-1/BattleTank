@@ -45,20 +45,14 @@ void UTankAimingComponent::AimAt(FVector HitLocation,float LaunchSpeed)
 		HitLocation,
 		LaunchSpeed,
 		false,
-		0.0f,
-		0.0f,
+		0.f,
+		0.f,
 		ESuggestProjVelocityTraceOption::DoNotTrace // Paramater must be present to prevent bug
 	);
 	if(bHaveAimSolution)
 	{
 		auto Desired = OutLaunchVelocity.GetSafeNormal();
-		auto TankName = GetOwner()->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("%s : Aim solution found"),*TankName)
 		MoveBarrelTowards(Desired);
-	}
-	else
-	{
-		UE_LOG(LogTemp,Warning,TEXT("No aim solution found"))
 	}
 }
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
@@ -74,6 +68,6 @@ void UTankAimingComponent::MoveBarrelTowards(FVector TargetAimDirection)
 	auto BarrelRotation = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = TargetAimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotation;
-	Turret->Rotate(DeltaRotator.GetNormalized().Pitch);
-	Barrel->Elevate(DeltaRotator.GetNormalized().Yaw);
+	Turret->Rotate(DeltaRotator.Pitch);
+	Barrel->Elevate(DeltaRotator.Yaw);
 }
