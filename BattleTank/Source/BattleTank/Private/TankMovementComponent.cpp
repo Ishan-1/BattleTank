@@ -57,3 +57,12 @@ void UTankMovementComponent::IntendMoveBackward(float Throw)
 	LeftTrack->SetThrottle(-Throw);
 	RightTrack->SetThrottle(-Throw);
 }
+
+void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
+{ 
+	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
+	auto Result = FVector::DotProduct(TankForward, AIForwardIntention);
+	IntendMoveForward(Result);
+	//UE_LOG(LogTemp,Warning,TEXT("%s trying to move towards: %s"),*HName,*MoveVelocityString)
+}

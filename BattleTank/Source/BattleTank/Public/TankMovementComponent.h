@@ -25,6 +25,7 @@ public:
 		void IntendMoveLeft(float Throw);
 		UFUNCTION(BlueprintCallable, Category = Setup)
 		void IntendMoveBackward(float Throw);
+		virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 private:
 	UTankTrack* LeftTrack;
 	UTankTrack* RightTrack;
