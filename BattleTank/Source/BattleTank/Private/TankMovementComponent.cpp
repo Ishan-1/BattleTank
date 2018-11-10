@@ -35,29 +35,6 @@ void UTankMovementComponent::IntendMoveRight(float Throw)
 	LeftTrack->SetThrottle(-Throw);
 	RightTrack->SetThrottle(Throw);
 }
-
-void UTankMovementComponent::IntendMoveLeft(float Throw)
-{
-	if (!LeftTrack || !RightTrack)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Track reference missing"))
-			return;
-	}
-	LeftTrack->SetThrottle(Throw);
-	RightTrack->SetThrottle(-Throw);
-}
-
-void UTankMovementComponent::IntendMoveBackward(float Throw)
-{
-	if (!LeftTrack || !RightTrack)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Track reference missing"))
-			return;
-	}
-	LeftTrack->SetThrottle(-Throw);
-	RightTrack->SetThrottle(-Throw);
-}
-
 void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
 { 
 	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
