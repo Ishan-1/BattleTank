@@ -4,9 +4,9 @@
 #include "TankTrack.h"
 void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
 {
-	if (!LeftTrackToSet || !RightTrackToSet)
+	if (!ensure(LeftTrackToSet) || !(RightTrackToSet))
 	{
-		UE_LOG(LogTemp, Error, TEXT("Track reference missing"))
+		
 			return;
 	}
 	LeftTrack = LeftTrackToSet;
@@ -16,9 +16,8 @@ void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
 
-	if (!LeftTrack || !RightTrack)
+	if (!ensure(LeftTrack) || !ensure(RightTrack))
 	{
-		UE_LOG(LogTemp, Error, TEXT("Track reference missing"))
 			return;
 	}
 	LeftTrack->SetThrottle(Throw);
@@ -27,9 +26,9 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 
 void UTankMovementComponent::IntendMoveRight(float Throw)
 {
-	if (!LeftTrack || !RightTrack)
+	if (!ensure(LeftTrack) || !ensure(RightTrack))
 	{
-		UE_LOG(LogTemp, Error, TEXT("Track reference missing"))
+		
 			return;
 	}
 	LeftTrack->SetThrottle(-Throw);
@@ -43,5 +42,5 @@ void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, boo
 	auto ResultRight = FVector::CrossProduct(TankForward,AIForwardIntention).Z;
 	IntendMoveForward(ResultForward);
 	IntendMoveRight(ResultRight);
-	//UE_LOG(LogTemp,Warning,TEXT("%s trying to move towards: %s"),*HName,*MoveVelocityString)
+	
 }

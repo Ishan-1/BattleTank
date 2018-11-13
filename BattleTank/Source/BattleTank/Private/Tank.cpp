@@ -37,9 +37,9 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent)
+	if (!ensure(TankAimingComponent))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("TankAimingComponent reference missing"))
+		
 			return;
 	}
 	TankAimingComponent->AimAt(HitLocation,LaunchSpeed);
@@ -48,7 +48,8 @@ void ATank::AimAt(FVector HitLocation)
 void ATank::Fire()
 {
 	bool isReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeinSeconds;
-		if (Barrel&&isReloaded)
+	if (!ensure(Barrel)) { return; }
+		if (isReloaded)
 	    {
 			auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,
 				Barrel->GetSocketLocation(FName("Projectile")),

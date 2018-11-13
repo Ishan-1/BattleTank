@@ -8,10 +8,8 @@ void AMyTankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	auto AutoComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-    if(AutoComponent)
+    if(ensure(AutoComponent))
 	FoundAimingComponent(AutoComponent);
-	else
-		UE_LOG(LogTemp,Warning,TEXT("Attach a aiming component"))
 }
 ATank* AMyTankPlayerController::GetControlledTank() const
 {
@@ -26,6 +24,7 @@ void AMyTankPlayerController::AimTowardsCrosshair()
 {
 	FVector HitLocation; // Out parameter
 	bool bGotHitLocation = GetHitSightRayLocation(HitLocation);
+	if (!ensure(GetControlledTank())) { return; }
 	if (bGotHitLocation) // Has "side-effect", is going to line trace
 	{
 		GetControlledTank()->AimAt(HitLocation);
