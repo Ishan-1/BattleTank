@@ -7,13 +7,9 @@
 void AMyTankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	auto AutoComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	auto AutoComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
     if(ensure(AutoComponent))
 	FoundAimingComponent(AutoComponent);
-}
-ATank* AMyTankPlayerController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
 }
 void AMyTankPlayerController::Tick(float DeltaTime)
 {
@@ -24,10 +20,11 @@ void AMyTankPlayerController::AimTowardsCrosshair()
 {
 	FVector HitLocation; // Out parameter
 	bool bGotHitLocation = GetHitSightRayLocation(HitLocation);
-	if (!ensure(GetControlledTank())) { return; }
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
 	if (bGotHitLocation) // Has "side-effect", is going to line trace
 	{
-		GetControlledTank()->AimAt(HitLocation);
+		AimingComponent->AimAt(HitLocation);
 	}
 }
 bool AMyTankPlayerController::GetHitSightRayLocation(FVector& OutHitLocation) const

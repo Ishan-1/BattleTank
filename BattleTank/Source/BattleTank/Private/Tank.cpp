@@ -3,7 +3,6 @@
 #include "Tank.h"
 #include "TankTurret.h"
 #include "TankBarrel.h"
-#include "TankAimingComponent.h"
 #include "Projectile.h"
 
 // Sets default values
@@ -17,7 +16,6 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -34,16 +32,6 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void ATank::AimAt(FVector HitLocation)
-{
-	if (!ensure(TankAimingComponent))
-	{
-		
-			return;
-	}
-	TankAimingComponent->AimAt(HitLocation,LaunchSpeed);
-}
-
 void ATank::Fire()
 {
 	bool isReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeinSeconds;
@@ -53,7 +41,7 @@ void ATank::Fire()
 			auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,
 				Barrel->GetSocketLocation(FName("Projectile")),
 				Barrel->GetSocketRotation(FName("Projectile")));
-			Projectile->LaunchProjectile(LaunchSpeed);
+			
 			LastFireTime = GetWorld()->GetTimeSeconds();
 	     }
 }
