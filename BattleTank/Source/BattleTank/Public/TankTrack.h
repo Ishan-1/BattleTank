@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/StaticMeshComponent.h"
+#include "Engine/World.h"
 #include "TankTrack.generated.h"
 
 /**
@@ -16,7 +17,7 @@ class BATTLETANK_API UTankTrack : public UStaticMeshComponent
 	
 public:
 	UTankTrack();
-	void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	void ApplySidewaysForce();
 	virtual void BeginPlay() override;
 	UFUNCTION(BlueprintCallable,Category=Input)
 	void SetThrottle(float Throttle);
