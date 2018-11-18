@@ -4,7 +4,7 @@
 #include "TankTrack.h"
 void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
 {
-	if (!ensure(LeftTrackToSet) || !(RightTrackToSet))
+	if (!ensure(LeftTrackToSet) || !ensure(RightTrackToSet))
 	{
 		
 			return;

@@ -46,6 +46,7 @@ private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 	void MoveBarrelTowards(FVector AimDirection);
+	bool IsBarrelMoving() const;
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		float LaunchSpeed = 10000;//TODO find sensible default
 	UPROPERTY(EditDefaultsOnly, Category = Setup)
@@ -53,4 +54,5 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		float ReloadTimeinSeconds = 3;
 	double LastFireTime = 0;
+	FVector AimDirection=FVector(0);
 };
