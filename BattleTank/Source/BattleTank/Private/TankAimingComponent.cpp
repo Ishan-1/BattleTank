@@ -20,12 +20,14 @@ UTankAimingComponent::UTankAimingComponent()
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp,Warning,TEXT("Hi"))
 	// ...
 	
 }
 
-
+EFiringStatus UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
 // Called every frame
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -94,7 +96,10 @@ void UTankAimingComponent::MoveBarrelTowards(FVector TargetAimDirection)
 	auto BarrelRotation = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = TargetAimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotation;
-	Turret->Rotate(DeltaRotator.Yaw);
+	if (DeltaRotator.Yaw < 180.f)
+		Turret->Rotate(DeltaRotator.Yaw);
+	else
+		Turret->Rotate(-DeltaRotator.Yaw);
 	Barrel->Elevate(DeltaRotator.Pitch);
 }
 
