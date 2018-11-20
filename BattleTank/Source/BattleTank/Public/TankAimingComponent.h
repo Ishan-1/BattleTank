@@ -14,7 +14,8 @@ enum class EFiringStatus : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	OutOfAmmo
 };
 class UTankBarrel;
 class UTankTurret;
@@ -33,6 +34,8 @@ protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringStatus FiringState = EFiringStatus::Locked;
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+		int32 AmmoCount = 4;
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -43,6 +46,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void Fire();
 	EFiringStatus GetFiringState() const;
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+		int32 GetRoundsLeft() const;
 private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
