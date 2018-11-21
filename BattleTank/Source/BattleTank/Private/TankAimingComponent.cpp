@@ -85,7 +85,7 @@ void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * T
 }
 void UTankAimingComponent::Fire()
 {
-	if (FiringState == EFiringStatus::Locked && FiringState == EFiringStatus::Aiming &&AmmoCount>0)
+	if (FiringState == EFiringStatus::Locked || FiringState == EFiringStatus::Aiming &&AmmoCount>0)
 	{
 		if (!ensure(Barrel)) { return; }
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,
