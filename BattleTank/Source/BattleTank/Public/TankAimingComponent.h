@@ -34,7 +34,7 @@ protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringStatus FiringState = EFiringStatus::Locked;
-	UPROPERTY(BlueprintReadOnly, Category = "State")
+	UPROPERTY(EditDefaultsOnly, Category = "State")
 		int32 AmmoCount = 4;
 public:	
 	// Called every frame
