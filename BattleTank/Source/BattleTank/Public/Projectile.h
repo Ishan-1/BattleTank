@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/DamageType.h"
+#include "TimerManager.h"
 #include "ParticleHelper.h"
 #include "Components/StaticMeshComponent.h"
 #include "Particles/ParticleSystem.h"
@@ -41,4 +44,9 @@ private:
 		URadialForceComponent* ExplosionForce = nullptr;
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+	void OnTimeExpire();
+	UPROPERTY(EditDefaultsOnly,Category="Setup")
+	float DestroyDelay = 5.f;
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		float ProjectileDamage = 5.f;
 };
