@@ -33,7 +33,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringStatus FiringState = EFiringStatus::Locked;
+	EFiringStatus FiringState = EFiringStatus::Reloading;
 	UPROPERTY(EditDefaultsOnly, Category = "State")
 		int32 AmmoCount = 4;
 public:	

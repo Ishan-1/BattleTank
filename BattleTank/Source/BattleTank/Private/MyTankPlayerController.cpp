@@ -16,6 +16,16 @@ void AMyTankPlayerController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	AimTowardsCrosshair();
 }
+void AMyTankPlayerController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+		PossessedTank->OnDeath.AddUniqueDynamic(this,&AMyTankPlayerController::OnPlayerTankDeath);
+	}
+}
 void AMyTankPlayerController::AimTowardsCrosshair()
 {
 	FVector HitLocation; // Out parameter
@@ -69,4 +79,9 @@ bool AMyTankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FV
 	}
 	HitLocation = FVector(0.f);
 	return false;
+}
+
+void AMyTankPlayerController::OnPlayerTankDeath()
+{
+	//StartSpectatingOnly();
 }
