@@ -28,6 +28,7 @@ void AMyTankPlayerController::SetPawn(APawn * InPawn)
 }
 void AMyTankPlayerController::AimTowardsCrosshair()
 {
+	if (!GetPawn()) { return; }
 	FVector HitLocation; // Out parameter
 	bool bGotHitLocation = GetHitSightRayLocation(HitLocation);
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
@@ -54,6 +55,7 @@ bool AMyTankPlayerController::GetHitSightRayLocation(FVector& OutHitLocation) co
 }
 bool AMyTankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const
 {
+	if (!GetPawn()) { return false; }
 	FVector CameraWorldLocation; // To be discarded
 	return  DeprojectScreenPositionToWorld(
 		ScreenLocation.X,
@@ -64,6 +66,7 @@ bool AMyTankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector
 }
 bool AMyTankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector &HitLocation) const
 {
+	if (!GetPawn()) { return false; }
 	FHitResult HitResult;
 	auto StartLocation = PlayerCameraManager->GetCameraLocation();
 	auto EndLocation = StartLocation + (LookDirection*LineTraceRange);
@@ -71,7 +74,7 @@ bool AMyTankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FV
 		HitResult,
 		StartLocation,
 		EndLocation,
-		ECollisionChannel::ECC_Camera)
+		ECollisionChannel::ECC_Visibility)
 		)
 	{
 		HitLocation=HitResult.Location;
@@ -83,5 +86,6 @@ bool AMyTankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FV
 
 void AMyTankPlayerController::OnPlayerTankDeath()
 {
-	//StartSpectatingOnly();
+	if (!GetPawn()) { return; }
+	StartSpectatingOnly();
 }
