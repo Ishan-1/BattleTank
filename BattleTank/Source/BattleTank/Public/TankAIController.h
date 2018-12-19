@@ -16,13 +16,12 @@ UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
-	
 public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetPawn(APawn* InPawn) override;
 	UFUNCTION()
-	void OnPossessedTankDeath();
+		void OnPossessedTankDeath();
 private:
 	UPROPERTY(EditAnywhere)
 	float AcceptanceRadius =30000.0f;//how close AI tank goes to player tank before stopping

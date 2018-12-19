@@ -23,6 +23,26 @@ void UTankAimingComponent::BeginPlay()
 	
 }
 
+void UTankAimingComponent::FireMultiple(int times)
+{
+	if (FiringState == EFiringStatus::Locked || FiringState == EFiringStatus::Aiming &&AmmoCount > 0)
+	{
+		if (!ensure(Barrel)) { return; }
+			auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,
+				Barrel->GetSocketLocation(FName("Projectile_1")),
+				Barrel->GetSocketRotation(FName("Projectile_1")));
+			Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,
+				Barrel->GetSocketLocation(FName("Projectile_2")),
+				Barrel->GetSocketRotation(FName("Projectile_2")));
+			Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint,
+				Barrel->GetSocketLocation(FName("Projectile_3")),
+				Barrel->GetSocketRotation(FName("Projectile_3")));
+			Projectile->LaunchProjectile(LaunchSpeed);
+		AmmoCount=AmmoCount-times;
+		LastFireTime_M = GetWorld()->GetTimeSeconds();
+	}
+}
+
 EFiringStatus UTankAimingComponent::GetFiringState() const
 {
 	return FiringState;

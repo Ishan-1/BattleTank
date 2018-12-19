@@ -45,6 +45,7 @@ public:
 	void Initialise(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet);
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void Fire();
+		void FireMultiple(int times);
 	EFiringStatus GetFiringState() const;
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 		int32 GetRoundsLeft() const;
@@ -59,6 +60,7 @@ private:
 		TSubclassOf<AProjectile> ProjectileBlueprint;
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		float ReloadTimeinSeconds = 3;
-	double LastFireTime = 0;
+	double LastFireTime = 0.0;
+	double LastFireTime_M = 0.0;
 	FVector AimDirection=FVector(0);
 };
